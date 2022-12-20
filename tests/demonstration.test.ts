@@ -1,44 +1,32 @@
 import { calculaTimeOut, timeOuts } from "../libs/util/shared/globals/timeOut";
 import { getEnvironment } from "../libs/util/shared/globals/environments/index";
-import { EntityServices } from "../libs/util/shared/services/entities.service";
 import { AddressServices } from "../libs/util/shared/services/address.service";
-import { BalanceServices } from "../libs/util/shared/services/balance.service";
-import { TransationsServices } from "../libs/util/shared/services/transactions.service";
+import { AddressPayload } from "../libs/util/shared/models/payloads/address-payloads";
+import * as func from '../libs/util/shared/functions/field-functions';
 
-let entityService: EntityServices;
-let balanceService: BalanceServices;
-let transactionsService: TransationsServices;
 let addressServices: AddressServices;
 
 const environment = getEnvironment();
 
 beforeAll(async () => {
-  entityService = new EntityServices(environment);
-  await entityService.onServiceStart();
-
-  balanceService = new BalanceServices(environment);
-  await balanceService.onServiceStart();
-
-  transactionsService = new TransationsServices(environment);
-  await transactionsService.onServiceStart();
-
   addressServices = new AddressServices(environment);
   await addressServices.onServiceStart();
+
   return;
 }, timeOuts.connection);
 
-describe("Establishment Step", () => {
+let zipCode = func.cep_fields();
+
+describe("Demonstration", () => {
+
   it(
-    "Query to get admin acess",
+    "Demonstration of how to use the service",
     async () => {
-      const adminPayload = new AdminPayload("admin");
-      await entityService.getAdminUser(adminPayload).then((res) => {
-        rowVars = res.rows;
-        adminUser = randList(rowVars);
-        adminUuid = adminUser.uuid;
-        adminLoginUser = adminUser.user;
+      const addressPayload = new AddressPayload(zipCode);
+      await addressServices.getCepDatas(addressPayload).then((res) => {
+        expect(res.statusCode).toBe(200);
       });
     },
-    timeOuts.db
+    calculaTimeOut(timeOuts.connection, 5000)
   );
 });
