@@ -3,7 +3,7 @@ import { ceps } from "../data-access/cep-datas";
 
 // How to import this file
 // Put this import in your file:
-// import * as func from '../../../../libs/util/shared/functions/commonFunctions';
+// import * as func from '../../../../libs/util/shared/functions/field-functions';
 
 // How to use functions
 // Use prefix "func"

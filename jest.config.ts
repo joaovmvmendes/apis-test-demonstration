@@ -20,6 +20,8 @@ module.exports = {
         publicPath: "./test-reports",
         inlineSource: true,
         filename: "report.html",
+        pageTitle: "Test Reporter Demonstration",
+        openReport: false
       },
     ],
   ],

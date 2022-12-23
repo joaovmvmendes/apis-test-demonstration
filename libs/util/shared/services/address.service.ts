@@ -7,6 +7,8 @@ export class AddressServices {
   environmentConfig;
   client;
 
+  cepDatas: any;
+
   constructor(environmentConfig) {
     this.environmentConfig = environmentConfig;
   }
@@ -17,14 +19,15 @@ export class AddressServices {
   }
 
   async getCepDatas(payloadAddress: AddressPayload) {
-    // TODO: Create: function to call the service again if any returned field is null
-    const res = await request(this.environmentConfig.baseUrl).get(
-      paths.ws +
-      "/" +
-        payloadAddress.zipCode +
-        paths.json
-    );
-    console.log("Cep Datas:", res.body);
+    const res = await request(this.environmentConfig.baseUrl)
+      .get(paths.ws + "/" + payloadAddress.zipCode + paths.json)
+      .then((res) => {
+        console.log("Cep Datas:", res.body);
+        expect(res.statusCode).toBe(200);
+        this.cepDatas = res.body;
+        expect(typeof res.body.cep).toBe(typeof String());
+        expect(res.body.cep).toBeTruthy();
+      });
     return res;
   }
 }
